@@ -1,0 +1,21 @@
+---
+import type { GetStaticPaths } from "astro";
+import MainLayout from "../../layouts/MainLayout.astro";
+
+//funcion para manejar ruta dinamica
+// return un array de objetos con los parametros que se pueden usar en la ruta
+export const getStaticPaths = (() => {
+  return [
+    { params: { name: "bulbasaur" } },
+    { params: { name: "ivysaur" } },
+    { params: { name: "venusaur" } },
+    { params: { name: "charmander" } },
+  ];
+}) satisfies GetStaticPaths;
+
+const { name } = Astro.params; //obtenemos el parametro de la url  /pokemons/:name
+---
+
+<MainLayout title="pokemon que nos e cual es ">
+  <h1 class="text-3xl">{name}</h1>
+</MainLayout>

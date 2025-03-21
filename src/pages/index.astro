@@ -5,7 +5,7 @@ const title = "Pokemon static | Home";
 import type { PokemonListResponse } from "../interfaces/pokemon-list.response.ts";
 
 const resp = await fetch("https://pokeapi.co/api/v2/pokemon");
-const data = (await resp.json()) as PokemonListResponse;
+const data = (await resp.json()) as PokemonListResponse; // Type assertion, indica de que tipo es, una interface que defini en otro archivo
 ---
 
 <MainLayout title={title}>
