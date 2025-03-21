@@ -1,21 +1,53 @@
 ---
 import type { GetStaticPaths } from "astro";
 import MainLayout from "../../layouts/MainLayout.astro";
-
+import PokemonCard from "../../components/pokemons/pokemonCard.astro";
 //funcion para manejar ruta dinamica
 // return un array de objetos con los parametros que se pueden usar en la ruta
 export const getStaticPaths = (() => {
   return [
-    { params: { name: "bulbasaur" } },
-    { params: { name: "ivysaur" } },
-    { params: { name: "venusaur" } },
-    { params: { name: "charmander" } },
+    {
+      params: { name: "bulbasaur" }, //parametros que se pueden usar en la ruta
+      props: { url: "https://pokeapi.co/api/v2/pokemon/1/" }, //los props son los datos que se pasan al componente
+    },
+    {
+      params: { name: "ivysaur" },
+      props: { url: "https://pokeapi.co/api/v2/pokemon/2/" },
+    },
+    {
+      params: { name: "venusaur" },
+      props: { url: "https://pokeapi.co/api/v2/pokemon/3/" },
+    },
+    {
+      params: { name: "charmander" },
+      props: { url: "https://pokeapi.co/api/v2/pokemon/4/" },
+    },
   ];
 }) satisfies GetStaticPaths;
 
 const { name } = Astro.params; //obtenemos el parametro de la url  /pokemons/:name
+const { url } = Astro.props;
+const id = url.split("/").at(-2);
+const audioSrc = `https://raw.githubusercontent.com/PokeAPI/cries/main/cries/pokemon/latest/${id}.ogg`;
 ---
 
 <MainLayout title="pokemon que nos e cual es ">
-  <h1 class="text-3xl">{name}</h1>
+  <section class="mt-10 mx-10 flex felx-col justify-center items-center">
+    <div>
+      <a href="/">Home</a>
+      <h1 class="text-5xl capitalize">{name}</h1>
+    </div>
+  </section>
+  <PokemonCard name={name} url={url} />
+  <audio controls class="mt-5">
+    <source src={audioSrc} type="audio/ogg" />
+    espero que esto salga bien
+  </audio>
 </MainLayout>
+
+<style>
+  @reference "../../styles/global.css";
+  a {
+    @apply hover:underline text-blue-500;
+  }
+</style>
