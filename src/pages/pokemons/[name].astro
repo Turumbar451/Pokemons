@@ -2,35 +2,18 @@
 import type { GetStaticPaths } from "astro";
 import MainLayout from "../../layouts/MainLayout.astro";
 import PokemonCard from "../../components/pokemons/pokemonCard.astro";
+import type { PokemonListResponse } from "../../interfaces/pokemon-list.response";
+import { PopoverController } from "@ionic/angular";
 //funcion para manejar ruta dinamica
 // return un array de objetos con los parametros que se pueden usar en la ruta
-export const getStaticPaths = (() => {
-  return [
-    {
-      params: { name: "bulbasaur" }, //parametros que se pueden usar en la ruta
-      props: { url: "https://pokeapi.co/api/v2/pokemon/1/" }, //los props son los datos que se pasan al componente
-    },
-    {
-      params: { name: "ivysaur" },
-      props: { url: "https://pokeapi.co/api/v2/pokemon/2/" },
-    },
-    {
-      params: { name: "venusaur" },
-      props: { url: "https://pokeapi.co/api/v2/pokemon/3/" },
-    },
-    {
-      params: { name: "charmander" },
-      props: { url: "https://pokeapi.co/api/v2/pokemon/4/" },
-    },
-    {
-      params: { name: "charmeleon" },
-      props: { url: "https://pokeapi.co/api/v2/pokemon/5/" },
-    },
-    {
-      params: { name: "charizard" },
-      props: { url: "https://pokeapi.co/api/v2/pokemon/6/" },
-    },
-  ];
+export const getStaticPaths = (async () => {
+  const resp = await fetch("https://pokeapi.co/api/v2/pokemon?limit=151");
+  const { results } = (await resp.json()) as PokemonListResponse;
+  console.log(results);
+  return results.map(({ name, url }) => ({
+    params: { name },
+    props: { name, url },
+  }));
 }) satisfies GetStaticPaths;
 
 const { name } = Astro.params; //obtenemos el parametro de la url  /pokemons/:name
