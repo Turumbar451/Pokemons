@@ -22,6 +22,14 @@ export const getStaticPaths = (() => {
       params: { name: "charmander" },
       props: { url: "https://pokeapi.co/api/v2/pokemon/4/" },
     },
+    {
+      params: { name: "charmeleon" },
+      props: { url: "https://pokeapi.co/api/v2/pokemon/5/" },
+    },
+    {
+      params: { name: "charizard" },
+      props: { url: "https://pokeapi.co/api/v2/pokemon/6/" },
+    },
   ];
 }) satisfies GetStaticPaths;
 
@@ -32,17 +40,18 @@ const audioSrc = `https://raw.githubusercontent.com/PokeAPI/cries/main/cries/pok
 ---
 
 <MainLayout title="pokemon que nos e cual es ">
-  <section class="mt-10 mx-10 flex felx-col justify-center items-center">
+  <section class="mt-10 mx-10 felx-col justify-center justify-items-center">
     <div>
       <a href="/">Home</a>
       <h1 class="text-5xl capitalize">{name}</h1>
     </div>
+
+    <PokemonCard name={name} url={url} />
+    <audio controls class="mt-5">
+      <source src={audioSrc} type="audio/ogg" />
+      espero que esto salga bien
+    </audio>
   </section>
-  <PokemonCard name={name} url={url} />
-  <audio controls class="mt-5">
-    <source src={audioSrc} type="audio/ogg" />
-    espero que esto salga bien
-  </audio>
 </MainLayout>
 
 <style>
