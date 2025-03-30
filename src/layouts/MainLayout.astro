@@ -1,4 +1,5 @@
 ---
+import { ClientRouter } from "astro:transitions";
 interface Props {
   title: string;
 }
@@ -8,15 +9,16 @@ import "/src/styles/global.css";
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="en" transition:name="root" transition:animate="none">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
+    <ClientRouter />
   </head>
-  <body class="bg-slate-800 text-slate-100 m-auto max-w-3xl">
+  <body class="bg-slate-800 text-slate-100 m-auto max-w-3xl px-10">
     <main class="mt-10 z">
       <slot />
     </main>

@@ -8,7 +8,6 @@ import type { PokemonListResponse } from "../../interfaces/pokemon-list.response
 export const getStaticPaths = (async () => {
   const resp = await fetch("https://pokeapi.co/api/v2/pokemon?limit=151");
   const { results } = (await resp.json()) as PokemonListResponse;
-  console.log(results);
   return results.map(({ name, url }) => ({
     params: { name },
     props: { name, url },
