@@ -28,13 +28,25 @@ const { page } = Astro.props;
   </section>
 
   <section class="flex justify-center mt-10 gap-2">
-{
-  page.url.prev && ( //&& es un operador logico que se usa para verificar si existe la propiedad prev, si no existe no se ejecuta el siguiente bloque de codigo
-    <a class="btn" href=`${page.url.prev}`>Anteriores</a>
-  )
-}
+    <a
+      class:list={[
+        "btn",
+        {
+          disabled: !page.url.prev, //si no existe la propiedad prev se le agrega la clase disabled
+        },
+      ]}
+      href={page.url.prev}>Anterior</a
+    >
 
-    <a class="btn" href=`${page.url.next}`>Siguiente</a>
+    <a
+      class:list={[
+        "btn",
+        {
+          disabled: !page.url.next,
+        },
+      ]}
+      href={page.url.next}>Siguiente</a
+    >
     <div class="flex flex-1"></div>
     <span class="text-xl font-bold">{page.currentPage}</span>
   </section>
@@ -42,7 +54,7 @@ const { page } = Astro.props;
 
 <style>
   @reference "tailwindcss";
-  .disabled {
+  .btn.disabled {
     @apply bg-gray-600 text-gray-400 cursor-not-allowed;
   }
   .btn {
