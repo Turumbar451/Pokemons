@@ -28,10 +28,15 @@ const { page } = Astro.props;
   </section>
 
   <section class="flex justify-center mt-10 gap-2">
+{
+  page.url.prev && ( //&& es un operador logico que se usa para verificar si existe la propiedad prev, si no existe no se ejecuta el siguiente bloque de codigo
     <a class="btn" href=`${page.url.prev}`>Anteriores</a>
+  )
+}
+
     <a class="btn" href=`${page.url.next}`>Siguiente</a>
     <div class="flex flex-1"></div>
-    <span>{page.currentPage}</span>
+    <span class="text-xl font-bold">{page.currentPage}</span>
   </section>
 </MainLayout>
 
