@@ -1,0 +1,44 @@
+---
+import MainLayout from "../../layouts/MainLayout.astro";
+import type { GetStaticPaths } from "astro";
+import type { PokemonListResponse } from "../../interfaces/pokemon-list.response.ts";
+import PokemonCard from "../../components/pokemons/pokemonCard.astro";
+
+export const getStaticPaths = (async () => {
+  const resp = await fetch("https://pokeapi.co/api/v2/pokemon?limit=151");
+  const { results } = (await resp.json()) as PokemonListResponse;
+
+  return results.map(({ name, url }) => {
+    const id = url.split("/").at(-2);
+    return {
+      params: { pokemon: id }, // pokemon es el nombre del archivo [name].astro y le estamos diciendo que el id es el parametro
+      props: { name, url },
+    };
+  });
+}) satisfies GetStaticPaths;
+const { pokemon } = Astro.params;
+const { url, name } = Astro.props;
+const audioSrc = `https://raw.githubusercontent.com/PokeAPI/cries/main/cries/pokemon/latest/${pokemon}.ogg`;
+---
+
+<MainLayout title="pokemon que nos e cual es ">
+  <section class="mt-10 mx-10 flex flex-col justify-center items-center">
+    <div class="flex flex-col items-center">
+      <a href="/">Home</a>
+      <h1 class="text-5xl capitalize">{name}</h1>
+    </div>
+
+    <PokemonCard name={name} url={url} isBig />
+    <audio controls class="mt-5">
+      <source src={audioSrc} type="audio/ogg" />
+      espero que esto salga bien
+    </audio>
+  </section>
+</MainLayout>
+
+<style>
+  @reference "../../styles/global.css";
+  a {
+    @apply hover:underline text-blue-500;
+  }
+</style>
