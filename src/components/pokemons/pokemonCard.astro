@@ -11,9 +11,9 @@ const id = url.split("/").at(-2);
 const imgSrc = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${id}.png`;
 ---
 
-<!-- class='justify-center rounded p-4 shadow-md flex flex-col items-center {!isBig && border } ' --><!-- href={`/pokemons/${name}`} -->
+<!-- class='justify-center rounded p-4 shadow-md flex flex-col items-center {!isBig && border } ' --><!-- href={`/pokemon/${id}`} -->
 <a
-  href={`/pokemon/${id}`}
+  href={`/pokemons/${name}`}
   class:list={[
     "justify-center rounded p-2  flex flex-col items-center",
     {
