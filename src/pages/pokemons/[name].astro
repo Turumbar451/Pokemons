@@ -3,6 +3,8 @@ import type { GetStaticPaths } from "astro";
 import MainLayout from "../../layouts/MainLayout.astro";
 import PokemonCard from "../../components/pokemons/pokemonCard.astro";
 import type { PokemonListResponse } from "../../interfaces/pokemon-list.response";
+import Title from "@components/shared/title.astro";
+import { Icon } from "astro-icon/components";
 //funcion para manejar ruta dinamica
 // return un array de objetos con los parametros que se pueden usar en la ruta
 export const getStaticPaths = (async () => {
@@ -27,9 +29,16 @@ const imgSrc = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites
   image={imgSrc}
 >
   <section class="mt-10 mx-10 flex flex-col justify-center items-center">
-    <div class="flex flex-col items-center">
-      <a href="/">Home</a>
-      <h1 class="text-5xl capitalize">{name}</h1>
+    <div class="flex flex-row">
+      <div class="flex flex-col">
+        <!-- <a href="/">Home</a> -->
+        <button onclick="history.back()" class="text-blue-500">Regresar</button>
+        <Title>{name}</Title>
+      </div>
+      <button class="ml-4" id="btn-fav">
+        <Icon name="heart-outline" size={50} />
+        <Icon class="hidden" name="heart-full" size={50} />
+      </button>
     </div>
 
     <PokemonCard name={name} url={url} isBig />
@@ -44,5 +53,8 @@ const imgSrc = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites
   @reference "../../styles/global.css";
   a {
     @apply hover:underline text-blue-500;
+  }
+  #btn-fav {
+    @apply hover:animate-pulse;
   }
 </style>
