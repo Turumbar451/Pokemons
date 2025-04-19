@@ -35,7 +35,7 @@ const imgSrc = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites
         <button onclick="history.back()" class="text-blue-500">Regresar</button>
         <Title>{name}</Title>
       </div>
-      <button class="ml-4" id="btn-fav">
+      <button class="ml-4" id="btn-fav" data-name={name} data-id={id}>
         <Icon name="heart-outline" size={50} />
         <Icon class="hidden" name="heart-full" size={50} />
       </button>
@@ -48,6 +48,35 @@ const imgSrc = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites
     </audio>
   </section>
 </MainLayout>
+<script>
+  interface FavoritePokemon {
+    id: number;
+    name: string;
+  }
+
+  document.addEventListener("astro:page-load", () => {
+    const btnFav = document.querySelector("#btn-fav") as HTMLButtonElement;
+    if (!btnFav) return;
+    const name = btnFav.dataset.name;
+    const id = btnFav.dataset.id;
+
+    btnFav.addEventListener("click", () => {
+      console.log("", name, id);
+    });
+  });
+</script>
+<!-- 
+<script define:vars={{name,id}} >
+  document.addEventListener("astro:page-load", () => {
+    const btnFav = document.querySelector("#btn-fav")
+    if (!btnFav) return;
+    clone = btnFav.cloneNode(true); //clonamos el nodo para que no se elimine el evento al cambiar de pagina
+    btnFav.replaceWith(clone); //reemplazamos el nodo original por el clon
+    clone.addEventListener("click", () => {
+      console.log("", name, id);
+    });
+  });
+</script> -->
 
 <style>
   @reference "../../styles/global.css";

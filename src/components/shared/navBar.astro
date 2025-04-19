@@ -25,10 +25,7 @@ const currentPath = Astro.url.pathname;
     {
       links.map(({ href, text }) => (
         <div>
-          <a
-            href={href}
-            class="text-gray-800 dark:text-gray-200  mx-1.5 sm:mx-6"
-          >
+          <a href={href} class="text-gray-800 dark:text-gray-200  mx-4 sm:mx-6">
             {text}
           </a>
           {currentPath === href ? (
