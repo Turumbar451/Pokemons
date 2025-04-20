@@ -1,9 +1,11 @@
 ---
 import Title from "@components/shared/title.astro";
 import MainLayout from "../../layouts/MainLayout.astro";
-import { Counter } from "@components/counter";
+import { FavoritePokemons } from "@components/pokemons/favoritePokemons";
 ---
 
 <MainLayout title="Favoritos">
   <Title>Favoritos</Title>
+  <FavoritePokemons client:only="solid-js" />
+  <!-- tenemos que usar client:only=solid-js porque el componente usa localstorage y no se puede usar en el servidor -->
 </MainLayout>

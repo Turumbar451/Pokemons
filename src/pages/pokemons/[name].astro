@@ -51,10 +51,12 @@ const imgSrc = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites
   </section>
 </MainLayout>
 <script>
-  interface FavoritePokemon {
+  /* interface FavoritePokemon {
     id: number;
     name: string;
-  }
+  } */
+
+  import type { FavoritePokemon } from "@interfaces/favorite-pokemons";
 
   const handlePageLoad = () => {
     //json.parse convierte el string a un objeto.
