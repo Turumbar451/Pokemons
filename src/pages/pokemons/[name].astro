@@ -36,8 +36,9 @@ const imgSrc = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites
         <Title>{name}</Title>
       </div>
       <button class="ml-4" id="btn-fav" data-name={name} data-id={id}>
-        <Icon name="heart-outline" size={50} />
-        <Icon class="hidden" name="heart-full" size={50} />
+        <!-- SE USARAN atributos data para obtener los valores en el script ya que usar define:var transformara el script en JS sin soporte para TS y yo quiero usar TS -->
+        <Icon data-outline name="heart-outline" size={50} />
+        <Icon data-full class="hidden" name="heart-full" size={50} />
       </button>
     </div>
 
@@ -54,21 +55,55 @@ const imgSrc = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites
     name: string;
   }
 
-  document.addEventListener("astro:page-load", () => {
-    const btnFav = document.querySelector("#btn-fav") as HTMLButtonElement;
-    if (!btnFav) return;
-    const name = btnFav.dataset.name;
-    const id = btnFav.dataset.id;
+  const handlePageLoad = () => {
+    //json.parse convierte el string a un objeto.
+    //getitem devuelve el string almacenado en el localstorage
+    //el operador ?? es un operador de coalescencia nula que devuelve el valor a la derecha si el valor a la izquierda es null o undefined
+    let favoritePokemon: FavoritePokemon[] = JSON.parse(
+      localStorage.getItem("favorites") ?? "[]" //esta linea es para obtener el array de favoritos del localstorage o un array vacio si no existe
+    );
 
-    btnFav.addEventListener("click", () => {
+    const btnFav = document.querySelector("#btn-fav") as HTMLButtonElement;
+
+    if (!btnFav) return; //si no existe el boton no hacemos nada
+
+    const name = btnFav.dataset.name ?? " ";
+    const id = btnFav.dataset.id ?? " ";
+
+    const toggleFavorite = () => {
+      const isFavorite = favoritePokemon.some((fav) => fav.name === name); //el metodo some devuelve true si al menos un elemento del array cumple la condicion
+      if (isFavorite) {
+        //removber de favoritos
+        favoritePokemon = favoritePokemon.filter((fav) => fav.name !== name); //el metodo filter devuelve un nuevo array con los elementos que cumplen la condicion
+      } else {
+        //agregar a favoritos
+        favoritePokemon.push({
+          id: +id, //el + convierte el string a number
+          name,
+        });
+      }
+      localStorage.setItem("favorites", JSON.stringify(favoritePokemon)); //convertimos el array a string para guardarlo en el localstorage, setitem guarda el string en el localstorage, y favorite es la clave
+    };
+
+    btnFav?.addEventListener("click", () => {
+      const heartOutline = btnFav.querySelector(
+        "[data-outline]"
+      ) as HTMLElement;
+      const heartFull = btnFav.querySelector("[data-full]") as HTMLElement;
       console.log("", name, id);
+
+      heartOutline.classList.toggle("hidden"); //toggle agrega o quita una clase dependiendo de si existe o no
+      heartFull.classList.toggle("hidden");
+      toggleFavorite();
     });
-  });
+  };
+
+  document.addEventListener("astro:page-load", handlePageLoad);
 </script>
-<!-- 
-<script define:vars={{name,id}} >
+
+<!-- <script define:vars={{ name, id }}>
   document.addEventListener("astro:page-load", () => {
-    const btnFav = document.querySelector("#btn-fav")
+    const btnFav = document.querySelector("#btn-fav");
     if (!btnFav) return;
     clone = btnFav.cloneNode(true); //clonamos el nodo para que no se elimine el evento al cambiar de pagina
     btnFav.replaceWith(clone); //reemplazamos el nodo original por el clon
@@ -76,8 +111,8 @@ const imgSrc = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites
       console.log("", name, id);
     });
   });
-</script> -->
-
+</script>
+ -->
 <style>
   @reference "../../styles/global.css";
   a {
