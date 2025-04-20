@@ -6,11 +6,7 @@ import { Counter } from "@components/counter";
 const counterValue = 20;
 ---
 
-<MainLayout title="Favoritos">
-  <Title>Prueba de islas</Title>
-
-  <hr />
-
+<MainLayout title="Islas">
   <!-- el client:load es un atributo que se le agrega a un componente para que se cargue en el cliente y no en el servidor, esto es util para componentes que necesitan acceso al DOM o a eventos del navegador -->
   <!--  otras directivas que puede tomar el client son: client:visible, client:idle, client:media, client:only, client:load, client:unload, client:visible, client:idle, client:media, client:only, client:load, client:unload -->
   <!-- las directivas controlan cuando se puede cargar el componente -->
@@ -20,7 +16,9 @@ const counterValue = 20;
     transition:persist-props
     client:only="solid-js"
     initValue={counterValue}
-  />
+  >
+    <Title>counter island, prueba</Title>
+  </Counter>
   <!-- se le indica que es solid-js porque es el framework que se esta usando para el componente, y el client:only indica que solo se cargue en el cliente y no en el servidor -->
   <section
     aria-label="Listado de pokemons"
