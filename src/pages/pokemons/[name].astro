@@ -1,4 +1,5 @@
 ---
+//todo este codigo se ejecuta en el servidor antes de que se renderice la pagina, o sea en tiempo de construccion
 import type { GetStaticPaths } from "astro";
 import MainLayout from "../../layouts/MainLayout.astro";
 import PokemonCard from "../../components/pokemons/pokemonCard.astro";
@@ -64,14 +65,22 @@ const imgSrc = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites
     );
 
     const btnFav = document.querySelector("#btn-fav") as HTMLButtonElement;
-
-    if (!btnFav) return; //si no existe el boton no hacemos nada
+    if (!btnFav) return;
 
     const name = btnFav.dataset.name ?? " ";
     const id = btnFav.dataset.id ?? " ";
+    const isFavorite = favoritePokemon.some((fav) => fav.name === name); //el metodo some devuelve true si al menos un elemento del array cumple la condicion
+
+    const heartOutline = btnFav.querySelector("[data-outline]") as HTMLElement;
+    const heartFull = btnFav.querySelector("[data-full]") as HTMLElement;
+
+    if (isFavorite) {
+      heartOutline.classList.add("hidden");
+      heartFull.classList.remove("hidden");
+    }
 
     const toggleFavorite = () => {
-      const isFavorite = favoritePokemon.some((fav) => fav.name === name); //el metodo some devuelve true si al menos un elemento del array cumple la condicion
+      const isFavorite = favoritePokemon.some((fav) => fav.name === name);
       if (isFavorite) {
         //removber de favoritos
         favoritePokemon = favoritePokemon.filter((fav) => fav.name !== name); //el metodo filter devuelve un nuevo array con los elementos que cumplen la condicion
@@ -82,16 +91,10 @@ const imgSrc = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites
           name,
         });
       }
-      localStorage.setItem("favorites", JSON.stringify(favoritePokemon)); //convertimos el array a string para guardarlo en el localstorage, setitem guarda el string en el localstorage, y favorite es la clave
+      localStorage.setItem("favorites", JSON.stringify(favoritePokemon)); //convertimos el array a string para guardarlo en el localstorage, setitem guarda el string en el localstorage, y favorites es la clave
     };
 
     btnFav?.addEventListener("click", () => {
-      const heartOutline = btnFav.querySelector(
-        "[data-outline]"
-      ) as HTMLElement;
-      const heartFull = btnFav.querySelector("[data-full]") as HTMLElement;
-      console.log("", name, id);
-
       heartOutline.classList.toggle("hidden"); //toggle agrega o quita una clase dependiendo de si existe o no
       heartFull.classList.toggle("hidden");
       toggleFavorite();
