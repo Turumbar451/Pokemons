@@ -2,6 +2,8 @@
 import Title from "@components/shared/title.astro";
 import MainLayout from "../../layouts/MainLayout.astro";
 import { Counter } from "@components/counter";
+
+const counterValue = 20;
 ---
 
 <MainLayout title="Favoritos">
@@ -13,7 +15,12 @@ import { Counter } from "@components/counter";
   <!--  otras directivas que puede tomar el client son: client:visible, client:idle, client:media, client:only, client:load, client:unload, client:visible, client:idle, client:media, client:only, client:load, client:unload -->
   <!-- las directivas controlan cuando se puede cargar el componente -->
 
-  <Counter client:only="solid-js" />
+  <Counter
+    transition:persist="counter"
+    transition:persist-props
+    client:only="solid-js"
+    initValue={counterValue}
+  />
   <!-- se le indica que es solid-js porque es el framework que se esta usando para el componente, y el client:only indica que solo se cargue en el cliente y no en el servidor -->
   <section
     aria-label="Listado de pokemons"

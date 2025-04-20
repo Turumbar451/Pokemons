@@ -7,6 +7,17 @@ import { Counter } from "@components/counter";
 <MainLayout title="Favoritos">
   <Title>Favoritos</Title>
 
+  la propiedad transition:persist indica que el componente se mantenga en el DOM
+  y no se elimine al cambiar de pagina. la propiedad transition:persist-props
+  indica que se mantengan las propiedades del componente, en este caso el valor
+  del contador, esto es util para componentes que necesitan mantener su estado,
+  como un contador o un formulario.
+  <Counter
+    transition:persist="counter"
+    transition:persist-props
+    client:only="solid-js"
+    initValue={0}
+  />
   <hr />
   <section
     aria-label="Listado de pokemons"
