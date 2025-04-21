@@ -1,5 +1,6 @@
 import type { FavoritePokemon } from "@interfaces/favorite-pokemons";
 import { For, createSignal } from "solid-js";
+import { FavoritePokemonCard } from "./favoritePokemonCard";
 
 const getLocalStorage = ():FavoritePokemon[] =>{
     const favoritePokemons = JSON.parse(
@@ -18,7 +19,7 @@ export const FavoritePokemons = () => {
             
 <For each = { pokemons()}>
     {(pokemon)=>
-    <h1>{pokemon.name}</h1>
+    <FavoritePokemonCard pokemon= {pokemon} />
     }
 </For>
 {/* el for es un componente de solid que itera sobre un array y renderiza un elemento por cada uno de los elementos del array, en este caso el array es pokemons, pokemon es cada elemento del array, en este caso objetos */}
